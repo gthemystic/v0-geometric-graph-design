@@ -23,20 +23,8 @@ import { type BackgroundConfig, GRADIENT_BG } from '@/lib/background-config'
 
 type BackgroundType = 'constellation' | 'vector' | 'quantum' | 'sand' | 'rain' | 'aurora' | 'neural' | 'nebula' | 'fluid' | 'firefly' | 'waves' | 'crystalline'
 
-const logoMap: Record<BackgroundType, string> = {
-  constellation: '/logos/constellation-logo.jpg',
-  vector: '/logos/vector-logo.jpg',
-  quantum: '/logos/quantum-logo.jpg',
-  sand: '/logos/sand-logo.jpg',
-  rain: '/logos/rain-logo.jpg',
-  aurora: '/logos/aurora-logo.jpg',
-  neural: '/logos/neural-logo.jpg',
-  nebula: '/logos/nebula-logo.jpg',
-  fluid: '/logos/fluid-logo.jpg',
-  firefly: '/logos/firefly-logo.jpg',
-  waves: '/logos/waves-logo.jpg',
-  crystalline: '/logos/crystalline-logo.jpg',
-}
+// Logo image URL
+const LOGO_URL = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/current-logo-MdSO8yJIi5bkMnmoFzpNLNV8JOz3hH.png'
 
 export default function Home() {
   const [background, setBackground] = useState<BackgroundType>('constellation')
@@ -96,23 +84,14 @@ export default function Home() {
           <div className="space-y-4">
             <div className="flex justify-center">
               <div className="relative h-24 w-24 md:h-32 md:w-32">
-                {Object.entries(logoMap).map(([key, src]) => (
-                  <div
-                    key={key}
-                    className={`absolute inset-0 transition-all duration-1000 ${
-                      background === key ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
-                    }`}
-                  >
-                    <Image
-                      src={src}
-                      alt={`${key} logo`}
-                      fill
-                      className="rounded-2xl object-cover"
-                      priority={key === 'constellation'}
-                    />
-                    <div className="absolute inset-0 rounded-2xl shadow-[0_0_40px_rgba(120,100,255,0.3)]" />
-                  </div>
-                ))}
+                <Image
+                  src={LOGO_URL}
+                  alt="EtherealExplorer logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+                <div className="absolute inset-0 rounded-2xl shadow-[0_0_40px_rgba(120,100,255,0.3)]" />
               </div>
             </div>
             <h1 className="text-balance font-sans text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
