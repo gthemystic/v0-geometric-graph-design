@@ -63,7 +63,7 @@ export function NebulaBackground({ theme = 'cosmic', intensity = 0.7 }: { theme?
         const distance = Math.sqrt(dx * dx + dy * dy)
         const maxDistance = 200
 
-        if (distance < maxDistance) {
+        if (distance < maxDistance && distance > 0.1) {
           const force = (1 - distance / maxDistance) * 0.08
           particle.vx += (dx / distance) * force
           particle.vy += (dy / distance) * force
@@ -87,12 +87,18 @@ export function NebulaBackground({ theme = 'cosmic', intensity = 0.7 }: { theme?
         if (particle.y > canvas.height + 10) particle.y = -10
 
         // Calculate cursor influence on opacity
-        const cursorDistance = Math.sqrt(dx * dx + dy * dy)
+        const cursorDistance = Math.sqrt(dx * dx + dy * dy) || 0
         const cursorInfluence = Math.max(0, 1 - cursorDistance / 150)
-        const currentOpacity = Math.min(particle.opacity + cursorInfluence * 0.4, 1)
+        const currentOpacity = Math.min(particle.opacity + cursorInfluence * 0.4, 1) || 0.5
 
         const t = COLOR_THEMES[themeRef.current]
         const int = intensityRef.current
+        
+        // Guard against NaN values
+        if (!isFinite(particle.x) || !isFinite(particle.y) || !isFinite(particle.size)) {
+          return
+        }
+        
         const gradient = ctx.createRadialGradient(
           particle.x, particle.y, 0,
           particle.x, particle.y, particle.size * 8
